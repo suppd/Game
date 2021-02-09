@@ -7,7 +7,7 @@ public class MyGame : Game
 {
 	public MyGame() : base(1920, 1080, true, false)
 	{
-		Player player = new Player(100, 500);
+		Player player = new Player(100, 900);
 		AddChild(player);
 
 

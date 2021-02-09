@@ -19,7 +19,7 @@ public class Bullet : Sprite
     /// <param name="direction"></param>
     /// <param name="pShooter"></param>
     /// <param name="pFromEnemy"></param>
-    public Bullet(Vector2 direction, Player pShooter=null, bool pFromEnemy=false) : base("circle.png")
+    public Bullet(Vector2 direction, Player pShooter=null, bool pFromEnemy=false) : base("note.png")
     {
         SetOrigin(width/2, height/2);
         SetColor(1, 0.2f, 0.2f);
@@ -38,7 +38,7 @@ public class Bullet : Sprite
     {
         Move(direction.normalized * ((speed * 100) * Time.deltaTime));  //bullet movement
         timer += Time.deltaTime;                                        //timer for destroying bullet after being spawned
-        if (timer >= 2)
+        if (timer >= 4)
         {
             Destroy();
         }
@@ -55,7 +55,7 @@ public class Bullet : Sprite
 }
 public class BulletSprite : Sprite
 {
-    public BulletSprite() : base("circle.png")
+    public BulletSprite() : base("note.png")
     {
         SetOrigin(_bounds.width / 2, _bounds.height / 2);
         SetColor(200, 50, 50);
