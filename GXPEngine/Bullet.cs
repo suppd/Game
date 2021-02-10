@@ -3,11 +3,12 @@ using GXPEngine;
 using GXPEngine.Core;
 
 
-public class Bullet : Sprite
+public class Bullet : GameObject
 {
     Vector2 direction;
     float speed = 5;
     Sprite bulletSprite = new BulletSprite();
+    Sprite bossBullet = new BulletBoss();
     float timer = 0;
     Player shooter; // initalise the player as shooter
     bool pEnemy; // know who shot the bullet player or enemy? if yes its TRUE
@@ -19,16 +20,23 @@ public class Bullet : Sprite
     /// <param name="direction"></param>
     /// <param name="pShooter"></param>
     /// <param name="pFromEnemy"></param>
-    public Bullet(Vector2 direction, Player pShooter=null, bool pFromEnemy=false) : base("note.png")
+    public Bullet(Vector2 direction, Player pShooter=null, bool pFromEnemy=false)
     {
-        SetOrigin(width/2, height/2);
-        SetColor(1, 0.2f, 0.2f);
         this.scaleX = 0.06f;
         this.scaleY = 0.15f;
         this.direction = direction;
         shooter = pShooter;         // Now we know who shot us
         pEnemy = pFromEnemy;        // Now we know if enemy shot us
-        AddChild(bulletSprite);
+
+        if(pShooter != null)
+        {
+            AddChild(bulletSprite);
+        }
+        
+        if(pFromEnemy != false)
+        {
+            AddChild(bossBullet);
+        }
 
     }
 
@@ -44,8 +52,26 @@ public class Bullet : Sprite
         }
     }
 
+
+}
+public class BulletSprite : Sprite
+{
+    public BulletSprite() : base("note.png")
+    {
+        SetOrigin(width/2, height/2);
+        SetColor(1, 0.2f, 0.2f);
+        SetColor(200, 50, 50);
+    }
+
     public void OnCollision(GameObject other)
     {
+        if (other is Boss1)
+        {
+            Boss1 boss1 = other as Boss1;
+            boss1.LoseLifes(1);
+            boss1.Hit = true;
+            DestroyBullet();
+        }
 
     }
     public void DestroyBullet()
@@ -53,11 +79,28 @@ public class Bullet : Sprite
         LateDestroy();
     }
 }
-public class BulletSprite : Sprite
+
+public class BulletBoss : Sprite
 {
-    public BulletSprite() : base("note.png")
+
+    public BulletBoss() : base("colors.png")
     {
         SetOrigin(_bounds.width / 2, _bounds.height / 2);
-        SetColor(200, 50, 50);
     }
+    public void OnCollision(GameObject other)
+    {
+        if (other is Boss1)
+        {
+            Boss1 boss1 = other as Boss1;
+            boss1.LoseLifes(1);
+            boss1.Hit = true;
+            DestroyBullet();
+        }
+
+    }
+    public void DestroyBullet()
+    {
+        LateDestroy();
+    }
+
 }

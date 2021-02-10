@@ -5,13 +5,10 @@ using TiledMapParser;
 
 public class MyGame : Game
 {
-	public MyGame() : base(1920, 1080, true, false)
+	public MyGame() : base(1920, 1080, false, false)
 	{
-		Player player = new Player(100, 900);
-		AddChild(player);
-
-
-
+		Level level = new Level();
+		AddChild(level);
 	}
 
 

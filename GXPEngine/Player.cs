@@ -27,6 +27,10 @@ public class Player : Sprite
 
     void Update()
     {
+        Console.WriteLine(x);
+
+        float oldX = x;
+        float oldY = y;
 
         move = false;
         //friction
@@ -39,7 +43,6 @@ public class Player : Sprite
             moveX -= acceleration;
             FrameCount++;
         }
-
         if (Input.GetKey(Key.D))
         {
             move = true;
@@ -47,14 +50,68 @@ public class Player : Sprite
             FrameCount++;
         }
 
+        if (Input.GetKey(Key.W) && Input.GetKey(Key.D))
+        {
+            moveX -= acceleration;
+            moveY += acceleration;
+
+            if (Time.time > nextFireTime)
+            {
+                if (Input.GetKey(Key.SPACE))
+                {
+                    nextFireTime = Time.time + CooldownTimer;
+                    Console.WriteLine("shot");
+                    Bullet bullet = new Bullet(new Vector2(15, -15), this);
+                    bullet.SetXY(x , y - 150);
+                    game.AddChild(bullet);
+
+                }
+            }
+
+        }
+
+        if (Input.GetKey(Key.W) && Input.GetKey(Key.A))
+        {
+            moveX += acceleration;
+            moveY += acceleration;
+
+            if (Time.time > nextFireTime)
+            {
+                if (Input.GetKey(Key.SPACE))
+                {
+                    nextFireTime = Time.time + CooldownTimer;
+                    Console.WriteLine("shot");
+                    Bullet bullet = new Bullet(new Vector2(-15, -15), this);
+                    bullet.SetXY(x , y - 150);
+                    game.AddChild(bullet);
+
+                }
+            }
+
+        }
+
+        if (Time.time > nextFireTime)
+        {
+            if (Input.GetKey(Key.SPACE))
+            {
+                nextFireTime = Time.time + CooldownTimer;
+                Console.WriteLine("shot");
+                Bullet bullet = new Bullet(new Vector2(-1, -70), this);
+                bullet.SetXY(x, y - 150);
+                game.AddChild(bullet);
+
+            }
+        }
+
+
         if (Input.GetKey(Key.W))
         {
-
+            moveY -= acceleration;
         }
 
         if (Input.GetKey(Key.S))
         {
-
+            moveY += acceleration;
         }
 
         //CooldownTimer++;
@@ -72,18 +129,18 @@ public class Player : Sprite
 
 
 
-        if (Time.time > nextFireTime)
-        {
-            if (Input.GetKey(Key.SPACE))
-            {
-                nextFireTime = Time.time + CooldownTimer;
-                Console.WriteLine("shot");
-                Bullet bullet = new Bullet(new Vector2(10, 0), this);
-                bullet.SetXY(x + 120, y - 40);
-                game.AddChild(bullet);
+        //if (Time.time > nextFireTime)
+        //{
+        //    if (Input.GetKey(Key.SPACE))
+        //    {
+        //        nextFireTime = Time.time + CooldownTimer;
+        //        Console.WriteLine("shot");
+        //        Bullet bullet = new Bullet(new Vector2(10, 0), this);
+        //        bullet.SetXY(x + 120, y - 40);
+        //        game.AddChild(bullet);
 
-            }
-        }
+        //    }
+        //}
 
         //collisions with other objects
         MoveUntilCollision(moveX, moveY);
