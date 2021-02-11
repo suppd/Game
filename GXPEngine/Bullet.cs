@@ -65,11 +65,10 @@ public class BulletSprite : Sprite
 
     public void OnCollision(GameObject other)
     {
-        if (other is Boss1)
+        if (other is BaseBoss)
         {
-            Boss1 boss1 = other as Boss1;
+            BaseBoss boss1 = other as BaseBoss;
             boss1.LoseLifes(1);
-            boss1.Hit = true;
             DestroyBullet();
         }
 
@@ -89,11 +88,10 @@ public class BulletBoss : Sprite
     }
     public void OnCollision(GameObject other)
     {
-        if (other is Boss1)
+        if (other is BaseBoss)
         {
-            Boss1 boss1 = other as Boss1;
+            BaseBoss boss1 = other as BaseBoss;
             boss1.LoseLifes(1);
-            boss1.Hit = true;
             DestroyBullet();
         }
 

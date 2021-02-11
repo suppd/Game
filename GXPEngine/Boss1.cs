@@ -1,113 +1,49 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 using GXPEngine;
-using GXPEngine.Core;
 
-public class Boss1 : Sprite
+public class Boss1 : BaseBoss
 {
-    int M = 0;
-    int N = 0;
-    int L = 0;
-    float HP;
-    public bool Hit;
-    float Timer = 30;
-    private Player _player;
-
-    //determine which phase?? or put pPhase in the constructor?
-    bool Phase1 = true;
-    bool Phase2 = false;
-
-    public Boss1(float newX, float newY, Player player) : base ("triangle.png")
+    public Boss1(float newX, float newY, Player player) : base(newX, newY, player)
     {
-        SetXY(newX, newY);
-        SetOrigin(width / 2, height / 2);
-        alpha = 1.0f;
-        _player = player;
+        AddChild(new Sprite("circle.png", false, false));//slecht!! >:(
     }
 
-    public void LoseLifes(int addition)
+    public override void HandleStates()
     {
-        HP = HP - addition;
-    }
-
-    public void Fade()
-    {
-        if(Hit == true)
+        switch (currentState)
         {
-            SetColor(1.0f, 0.0f, 0.0f);
-        }
-        else
-        {
-            SetColor(0.0f, 1.0f, 0.0f);
-        }
-
-    }
-
-
-    void Update()
-    {
-
-
-        if (Hit == true)
-        {
-            Timer--;
-            SetColor(1.0f, 0.0f, 0.0f);
-        }
-        else
-        {
-            SetColor(0.0f, 1.0f, 0.0f);
-        }
-        if (Timer == 0)
-        {
-            Hit = false;
-            Timer = 50;
-        }
-
-
-        if (Input.GetKey(Key.R))
-        {
-            if (_player.x < 849)
-            {
-                M = M + 2;
-                if(M > 800)
+            case BossState.Idle:
+                Timer -= Time.deltaTime;
+                if (Timer < 0f)
                 {
-                    M = 0;
+                    AddMissile();
+                    SetState(BossState.GoLeft);
                 }
-                Bullet bullet = new Bullet(new Vector2( -100 - M , _player.y), null, true);
-                bullet.SetXY(x, y + 50);
-                game.AddChild(bullet);
-            }
-
-
-
-            if (_player.x > 1156)
-            {
-                N = N + 2;
-                if (N > 600)
+                break;
+            case BossState.GoLeft:
+                if (x > 100)
                 {
-                    N = 0;
+                    x = x - 4;
                 }
-                Bullet bullet = new Bullet(new Vector2((_player.x + N )/3, _player.y), null, true);
-                bullet.SetXY(x, y + 50);
-                game.AddChild(bullet);
-
-            }
-
-            if (_player.x < 1155 && _player.x > 850)
-            {
-                L = L + 2;
-                if(L > 600)
+                else
                 {
-                    L = 0;
+                    SetState(BossState.GoRight);
                 }
-                Bullet bullet = new Bullet(new Vector2((- _player.x / 4) + L, _player.y), null, true);
-                bullet.SetXY(x, y + 50);
-                game.AddChild(bullet);
-            }
+                break;
+            case BossState.GoRight:
+                if (x < 1800)
+                {
+                    x = x + 4;
+                }
+                else
+                {
+                    SetState(BossState.Idle);
+                }
+                break;
         }
-
-
     }
-
-
 }
