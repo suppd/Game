@@ -3,7 +3,7 @@ using System.Drawing;
 using GXPEngine;
 using GXPEngine.Core;
 
-public enum BossState
+public enum BossState // maybe add states for dialogue?!!
 {
     None,
     Idle,
@@ -12,6 +12,9 @@ public enum BossState
     GoCenter,
     Shoot,
     Hurt,
+    Fase1,
+    Fase2,
+    Fase3,
 }
 
 public abstract class BaseBoss : Sprite
@@ -26,7 +29,7 @@ public abstract class BaseBoss : Sprite
     {
         SetXY(newX, newY);
         SetOrigin(width / 2, height / 2);
-        alpha = 1.0f;
+        alpha = 0.0f;
         _player = player;
         SetState(BossState.Idle);
     }
@@ -60,8 +63,8 @@ public abstract class BaseBoss : Sprite
 
     public void AddMissile()
     {
-        //Missile missile = new Missile(x, y + 50, null, _player.x, _player.y);  // missle that moves to position when spawned
-        Missile missile = new Missile(x, y + 50, _player, 0f, 0f);                  // missle that KEEPS following
+        Missile missile = new Missile(x - 300, y, null, _player.x, _player.y);  // missle that moves to position when spawned
+        //Missile missile = new Missile(x, y + 50, _player, 0f, 0f);                  // missle that KEEPS following
         game.AddChild(missile);
     }
 
@@ -71,20 +74,7 @@ public abstract class BaseBoss : Sprite
     {
         HandleStates();
 
-        //if (Hit == true)
-        //{
-        //    Timer--;
-        //    SetColor(1.0f, 0.0f, 0.0f);
-        //}
-        //else
-        //{
-        //    SetColor(0.0f, 1.0f, 0.0f);
-        //}
-        //if (Timer == 0)
-        //{
-        //    Hit = false;
-        //    Timer = 50;
-        //}
+}
 
 
         //if (Input.GetKey(Key.R))
@@ -133,4 +123,3 @@ public abstract class BaseBoss : Sprite
     }
 
 
-}

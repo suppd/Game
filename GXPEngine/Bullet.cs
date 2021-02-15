@@ -56,6 +56,8 @@ public class Bullet : GameObject
 }
 public class BulletSprite : Sprite
 {
+    float Timer = 5;
+    bool Hit = false;
     public BulletSprite() : base("note.png")
     {
         SetOrigin(width/2, height/2);
@@ -65,12 +67,26 @@ public class BulletSprite : Sprite
 
     public void OnCollision(GameObject other)
     {
-        if (other is BaseBoss)
+        if (other is TylerSprite)
         {
-            BaseBoss boss1 = other as BaseBoss;
-            boss1.LoseLifes(1);
+            TylerSprite boss1 = other as TylerSprite;
+            boss1.Hit = true;
+            Console.WriteLine("hit");
             DestroyBullet();
         }
+
+        if (other is BaseBoss)
+        {
+            BaseBoss b = other as BaseBoss;
+            b.LoseLifes(10);
+            DestroyBullet();
+        }
+
+
+    }
+
+    void Update()
+    {
 
     }
     public void DestroyBullet()

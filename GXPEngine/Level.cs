@@ -13,15 +13,28 @@ public class Level : GameObject
 
     void SetupLevel()
     {
-        
+        Background background = new Background(0, 0);
+        game.AddChild(background);
+
         game.AddChild(player);
 
-        Boss1 Boss1 = new Boss1(game.width / 2, 100, player);
+        Boss1 Boss1 = new Boss1(1700, 700, player);
         game.AddChild(Boss1);
+
+
     }
 
 }
 
+public class Background : Sprite
+{
+    public Background(float NewX,float NewY) : base("Background.png", false, false)
+    {
+        this.x = NewX;
+        this.y = NewY;
+    }
+
+}
 
 
 
