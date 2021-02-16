@@ -67,21 +67,30 @@ public class BulletSprite : Sprite
 
     public void OnCollision(GameObject other)
     {
-        if (other is TylerSprite)
-        {
-            TylerSprite boss1 = other as TylerSprite;
-            boss1.Hit = true;
-            Console.WriteLine("hit");
-            DestroyBullet();
-        }
+        //if (other is BaseBoss)
+        //{
+        //    BaseBoss boss1 = other as BaseBoss;
+        //    boss1.Hit = true;
+        //    Console.WriteLine("hit");
+        //    DestroyBullet();
+        //}
+
+
 
         if (other is BaseBoss)
         {
-            BaseBoss b = other as BaseBoss;
-            b.LoseLifes(10);
+            BaseBoss boss1 = other as BaseBoss;
+            boss1.LoseLifes(10);
+            boss1.GetHit();
             DestroyBullet();
         }
 
+        if (other is TylerSprite)
+        {
+            TylerSprite tyler = other as TylerSprite;
+            Console.WriteLine("HIT");
+            tyler.Hit = true;
+        }
 
     }
 
@@ -104,12 +113,6 @@ public class BulletBoss : Sprite
     }
     public void OnCollision(GameObject other)
     {
-        if (other is BaseBoss)
-        {
-            BaseBoss boss1 = other as BaseBoss;
-            boss1.LoseLifes(1);
-            DestroyBullet();
-        }
 
     }
     public void DestroyBullet()

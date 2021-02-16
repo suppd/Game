@@ -14,18 +14,15 @@ public class Player : Sprite
     float nextFireTime = 0;
     bool shot = false; // if shot or not for cooldown logic
     int Lifes = 5;
-    //float JumpSpeed = 5;
-    //float MaxJump = 50;
-    //float PlayerStartY = 900;
-    //bool Jumping = false;
-    int gravity = 10;
-    int force;
-    bool jump = false;
-    public Player(float SetX = 0, float SetY = 0) :base("Circle.png",false,true)
+    bool Onplatform;
+
+
+
+    public Player(float SetX = 0, float SetY = 0) : base("Circle.png", false, true)
     {
         SetOrigin(width / 2, height / 2);
         SetXY(SetX, SetY);
-        this.scale = 3;
+        this.scale = 2;
 
     }
 
@@ -36,22 +33,55 @@ public class Player : Sprite
 
     void Update()
     {
+        Move(moveX, moveY);
+        Move();
+
         Jump();
 
 
-        float oldX = x;
-        float oldY = y;
+        if (Time.time > nextFireTime)
+        {
+            if (Input.GetKey(Key.SPACE))
+            {
+                nextFireTime = Time.time + CooldownTimer;
+                Console.WriteLine("shot");
+                Bullet bullet = new Bullet(new Vector2(10, 0), this);
+                bullet.SetXY(x + 130, y);
+                game.AddChild(bullet);
 
+            }
+        }
+
+    }
+
+    void Jump()
+    {
+        moveY = moveY + 1;
+        //y = y + moveY;
+
+        if (y > (game.height - 80) - height / 2)
+        {
+            y = (game.height - 80) - height / 2;
+
+
+            if (Input.GetKey(Key.W))
+            {
+
+                moveY = -25;
+
+            }
+        }
+    }
+    void Move()
+    {
+        //x = x + moveX;
         move = false;
-        ////friction
-        //moveX *= 0.97f;
-        //moveY *= 0.97f;
+
         if (move == false)
         {
             speed = 0;
             moveX = 0;
         }
-   
 
         if (Input.GetKey(Key.A))
         {
@@ -73,98 +103,24 @@ public class Player : Sprite
                 FrameCount++;
             }
         }
-
-        //if (Input.GetKey(Key.W) && Input.GetKey(Key.D))
-        //{
-        //    moveX -= acceleration;
-        //    moveY += acceleration;
-
-        //    if (Time.time > nextFireTime)
-        //    {
-        //        if (Input.GetKey(Key.SPACE))
-        //        {
-        //            nextFireTime = Time.time + CooldownTimer;
-        //            Console.WriteLine("shot");
-        //            Bullet bullet = new Bullet(new Vector2(15, -15), this);
-        //            bullet.SetXY(x , y - 150);
-        //            game.AddChild(bullet);
-
-        //        }
-        //    }
-
-        //}
-
-        //if (Input.GetKey(Key.W) && Input.GetKey(Key.A))
-        //{
-        //    moveX += acceleration;
-        //    moveY += acceleration;
-
-        //    if (Time.time > nextFireTime)
-        //    {
-        //        if (Input.GetKey(Key.SPACE))
-        //        {
-        //            nextFireTime = Time.time + CooldownTimer;
-        //            Console.WriteLine("shot");
-        //            Bullet bullet = new Bullet(new Vector2(-15, -15), this);
-        //            bullet.SetXY(x , y - 150);
-        //            game.AddChild(bullet);
-
-        //        }
-        //    }
-
-        //}
-
-        if (Time.time > nextFireTime)
-        {
-            if (Input.GetKey(Key.SPACE))
-            {
-                nextFireTime = Time.time + CooldownTimer;
-                Console.WriteLine("shot");
-                Bullet bullet = new Bullet(new Vector2(10, 0), this);
-                bullet.SetXY(x + 130, y );
-                game.AddChild(bullet);
-
-            }
-        }
-
-
-        //if (PlayerStartY - y >= MaxJump)
-        //{
-        //    y = y + JumpSpeed;
-        //}
-        //if (Input.GetKey(Key.W))
-        //{
-        //    y = y - JumpSpeed;
-
-        //}
-
-        //if (Input.GetKey(Key.S))
-        //{
-        //    moveY += acceleration;
-        //}
-
-
-
-        void Jump()
-        {
-            moveY = moveY + 1;
-            y = y + moveY;
-
-            if (y > (game.height - 80) - height / 2)
-            {
-                y = (game.height - 80) - height / 2;
-                moveY = 0;
-
-
-                if (Input.GetKey(Key.W))
-                {
-                    moveY = -20;
-                }
-            }
-        }
-
-        //collisions with other objects
-        MoveUntilCollision(moveX, moveY);
     }
 
+    void OnCollision(GameObject other)
+    {
+
+        if (other is Platform)
+        {
+            Platform platform = other as Platform;
+
+            if (Input.GetKey(Key.W))
+            {
+                moveY = -25;
+            }
+            else
+            {
+                Move(0, -moveY);
+                moveY = 0;
+            }
+        }
+    }
 }

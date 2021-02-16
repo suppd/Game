@@ -15,24 +15,45 @@ public enum BossState // maybe add states for dialogue?!!
     Fase1,
     Fase2,
     Fase3,
+    Dialogue,
 }
 
 public abstract class BaseBoss : Sprite
 {
     public BossState currentState = BossState.None;
-
+    public float Hitreset = 25;
+    public bool Hit = false;
     public float HP;
     public float Timer = 0f;
     public Player _player;
 
-    public BaseBoss(float newX, float newY, Player player) : base ("triangle.png")
+    public BaseBoss(float newX, float newY, Player player) : base ("TylerHitbox.png")
     {
         SetXY(newX, newY);
         SetOrigin(width / 2, height / 2);
         alpha = 0.0f;
         _player = player;
-        SetState(BossState.Idle);
+        scale = 0.1f;
     }
+
+    public void GetHit()
+    {
+        Hit = true;
+
+        if (Hitreset >= 0)
+        {
+            SetColor(1, 0, 0);
+        }
+
+
+        if (Hitreset == 0)
+        {
+            SetColor(1, 1, 1);
+            Hitreset = 25;
+        }
+    }
+
+
 
     public void SetState(BossState newState) // switch states
     {
@@ -48,7 +69,7 @@ public abstract class BaseBoss : Sprite
         Console.WriteLine("State " + state + " has begun.");
         if (state == BossState.Idle)
         {
-            Timer = 1f;
+            Timer = 5;
         }
     }
     public virtual void HandleStates()
@@ -74,7 +95,13 @@ public abstract class BaseBoss : Sprite
     {
         HandleStates();
 
-}
+        if (Hit == true)
+        {
+            Hitreset--;
+        }
+        
+
+    }
 
 
         //if (Input.GetKey(Key.R))

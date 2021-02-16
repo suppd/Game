@@ -11,75 +11,47 @@ using GXPEngine;
 
 public class Boss1 : BaseBoss
 {
-    Sprite tyler = new TylerSprite();
+    //if you exchange tyler sprite with Sprite then u can't acces tyler specific stuff but can import a lot more sprites here which i think isn't needed cuz every boss has 1 sprite
+    TylerSprite tyler = new TylerSprite();
 
     public Boss1(float newX, float newY, Player player = null) : base(newX, newY, player)
     {
         AddChild(tyler);
         HP = 20;
+        SetState(BossState.Idle);
     }
+
+    new private void Update()
+    {
+        HandleStates();
+
+    }
+
+    
 
     public override void HandleStates()
     {
+        Dialogue dialogue = new Dialogue(x - 300, y);
         switch (currentState)
         {
             case BossState.Idle:
                 Timer -= Time.deltaTime;
-                if (Timer < 0f)
-                {
-                    AddMissile();
-                    SetState(BossState.Shoot);
-                }
-                break;
-            case BossState.Shoot:
-                Timer -= Time.deltaTime;
-                if (Timer < 0f)
-                {
-                    AddMissile();
-                    SetState(BossState.Shoot);
-                    Timer = 4;
-                }
-                break;
-            case BossState.Fase1:
-                if (HP < 30)
+                if (Timer <= 0f)
                 {
                     
+                    game.AddChild(dialogue);
+                    SetState(BossState.Fase1);
+                }               
+                break;
+            case BossState.Fase1:
+                Timer -= Time.deltaTime;
+                if(Timer <= 0f)
+                {
+                    dialogue.Destroy();
+                    AddMissile();
+                    Timer = 2;
                 }
                 break;
-
-            //case BossState.GoLeft:
-            //    if (x > 100)
-            //    {
-            //        x = x - 4;
-            //    }
-            //    else
-            //    {
-            //        SetState(BossState.GoRight);
-            //    }
-            //    break;
-            //case BossState.GoRight:
-            //    if (x < 1800)
-            //    {
-            //        x = x + 4;
-            //    }
-            //    else
-            //    {
-            //        SetState(BossState.Idle);
-            //    }
-            //    break;
-
-            //case BossState.Hurt:
-            //    tyler.SetColor(1.0f, 0, 0);
-            //    break;
-            // doesnt work ^^
-        }
-    }
-
-    void Update()
-    {
-        if (HP < 0)
-        {
-            LateDestroy();
         }
     }
 
@@ -90,10 +62,10 @@ public class TylerSprite : Sprite
 {
     public int Timer = 25;
     public bool Hit = false;
-    public TylerSprite() : base("Tyler.png")
+    public TylerSprite() : base("Tyler.png", false, true)
     {
         SetOrigin(width / 2, height / 2);
-        scale = 0.1f;
+        
     }
 
 
@@ -119,3 +91,19 @@ public class TylerSprite : Sprite
     }
 }
 
+
+
+public class Dialogue : Sprite
+{ 
+    public Dialogue(float NewX, float NewY) : base("dia.png", false, true)
+    {
+        this.x = NewX;
+        this.y = NewY; 
+        SetOrigin(width / 2, height / 2);
+    }
+
+    void Destroy()
+    {
+        LateDestroy();
+    }
+}
