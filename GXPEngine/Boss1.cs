@@ -17,7 +17,7 @@ public class Boss1 : BaseBoss
     public Boss1(float newX, float newY, Player player = null) : base(newX, newY, player)
     {
         AddChild(tyler);
-        HP = 20;
+        HP = 100;
         SetState(BossState.Idle);
     }
 
@@ -36,20 +36,37 @@ public class Boss1 : BaseBoss
         {
             case BossState.Idle:
                 Timer -= Time.deltaTime;
+                game.AddChild(dialogue);
                 if (Timer <= 0f)
                 {
-                    
-                    game.AddChild(dialogue);
                     SetState(BossState.Fase1);
                 }               
                 break;
             case BossState.Fase1:
+                dialogue.Destroy();
                 Timer -= Time.deltaTime;
                 if(Timer <= 0f)
                 {
-                    dialogue.Destroy();
                     AddMissile();
                     Timer = 2;
+                }
+                if(HP <= 50)
+                {
+                    SetState(BossState.Fase2);
+                }
+                break;
+            case BossState.Fase2:
+                Timer -= Time.deltaTime;
+                if (Timer <= 0f)
+                {
+                    AddGroundBul();
+                    Timer = 2;
+                }
+                break;
+            case BossState.Defeated:
+                if (HP <= 0)
+                {
+                    LateDestroy();
                 }
                 break;
         }

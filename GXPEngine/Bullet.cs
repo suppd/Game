@@ -110,10 +110,15 @@ public class BulletBoss : Sprite
     public BulletBoss() : base("colors.png")
     {
         SetOrigin(_bounds.width / 2, _bounds.height / 2);
+        this.scale = 10;
     }
     public void OnCollision(GameObject other)
     {
-
+        //if (other is Platform)
+        //{
+        //    Platform platform = other as Platform;
+        //    DestroyBullet();
+        //}
     }
     public void DestroyBullet()
     {

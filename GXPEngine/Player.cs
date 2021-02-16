@@ -3,8 +3,9 @@ using System.Drawing;
 using GXPEngine;
 using GXPEngine.Core;
 
-public class Player : Sprite
+public class Player : AnimationSprite
 {
+    bool idle;
     bool move = false;
     float acceleration = 0.3f;
     float speed = 0;
@@ -18,12 +19,14 @@ public class Player : Sprite
 
 
 
-    public Player(float SetX = 0, float SetY = 0) : base("Circle.png", false, true)
+    public Player(float SetX = 0, float SetY = 0) : base("MCani.png", 5, 2, 6, false, true)
     {
         SetOrigin(width / 2, height / 2);
         SetXY(SetX, SetY);
-        this.scale = 2;
-
+        this.scale = 0.75f;
+        SetFrame(0);
+        FrameCount = 0;
+        Frames = 2.5f;
     }
 
 
@@ -66,7 +69,7 @@ public class Player : Sprite
 
             if (Input.GetKey(Key.W))
             {
-
+                
                 moveY = -25;
 
             }
@@ -91,6 +94,7 @@ public class Player : Sprite
             {
                 moveX -= speed;
                 FrameCount++;
+                Mirror(true,false);
             }
         }
         if (Input.GetKey(Key.D))
@@ -101,7 +105,14 @@ public class Player : Sprite
             {
                 moveX += speed;
                 FrameCount++;
+                Mirror(false, false);
             }
+        }
+
+        if (FrameCount > Frames)
+        {
+            NextFrame();
+            FrameCount = 0;
         }
     }
 

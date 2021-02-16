@@ -16,6 +16,7 @@ public enum BossState // maybe add states for dialogue?!!
     Fase2,
     Fase3,
     Dialogue,
+    Defeated,
 }
 
 public abstract class BaseBoss : Sprite
@@ -77,6 +78,10 @@ public abstract class BaseBoss : Sprite
         //empty code this in indivual boss classes
     }
 
+    public float GetHP()
+    {
+        return HP;
+    }
     public void LoseLifes(int addition)
     {
         HP = HP - addition;
@@ -85,11 +90,22 @@ public abstract class BaseBoss : Sprite
     public void AddMissile()
     {
         Missile missile = new Missile(x - 300, y, null, _player.x, _player.y);  // missle that moves to position when spawned
-        //Missile missile = new Missile(x, y + 50, _player, 0f, 0f);                  // missle that KEEPS following
         game.AddChild(missile);
     }
 
 
+    public void AddMissile2()
+    {
+        Missile missile = new Missile(x, y + 50, _player, 0f, 0f);                  // missle that KEEPS following
+        game.AddChild(missile);
+    }
+
+    public void AddGroundBul()
+    {
+        Bullet bullet = new Bullet(new Vector2(0, -10), null, true);
+        bullet.SetXY(_player.x,1080);
+        game.AddChild(bullet);
+    }
 
     public void Update()
     {

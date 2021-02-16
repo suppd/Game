@@ -38,9 +38,11 @@
   <ItemGroup>
     <Compile Include="BaseBoss.cs" />
     <Compile Include="Boss1.cs" />
+    <Compile Include="Boss2.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
+    <Compile Include="HUD.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Missile.cs" />
     <Compile Include="MyGame.cs" />
