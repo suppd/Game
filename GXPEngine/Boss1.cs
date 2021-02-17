@@ -43,12 +43,12 @@ public class Boss1 : BaseBoss
                 }               
                 break;
             case BossState.Fase1:
-                dialogue.Destroy();
+                dialogue.LateDestroy();
                 Timer -= Time.deltaTime;
                 if(Timer <= 0f)
                 {
                     AddMissile();
-                    Timer = 2;
+                    Timer = 1f;
                 }
                 if(HP <= 50)
                 {
@@ -61,6 +61,23 @@ public class Boss1 : BaseBoss
                 {
                     AddGroundBul();
                     Timer = 2;
+                }
+                if(HP <= 20)
+                {
+                    SetState(BossState.Fase3);
+                }
+                break;
+            case BossState.Fase3:
+                Timer -= Time.deltaTime;
+                if (Timer <= 0f)
+                {
+                    AddGroundBul();
+                    AddMissile();
+                    Timer = 2;
+                }
+                if(HP <= 0)
+                {
+                    SetState(BossState.Defeated);
                 }
                 break;
             case BossState.Defeated:

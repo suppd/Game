@@ -15,16 +15,17 @@ public class Player : AnimationSprite
     float nextFireTime = 0;
     bool shot = false; // if shot or not for cooldown logic
     int Lifes = 5;
-    bool Onplatform;
+    bool Jumping = false;
+    float Timer = 1f;
 
 
 
-    public Player(float SetX = 0, float SetY = 0) : base("MCani.png", 5, 2, 6, false, true)
+    public Player(float SetX = 0, float SetY = 0) : base("protagcycle_good.png", 5, 3, 10, false, true)
     {
         SetOrigin(width / 2, height / 2);
         SetXY(SetX, SetY);
         this.scale = 0.75f;
-        SetFrame(0);
+        SetFrame(6);
         FrameCount = 0;
         Frames = 2.5f;
     }
@@ -36,6 +37,24 @@ public class Player : AnimationSprite
 
     void Update()
     {
+        if (move == true)
+        {
+            SetCycle(0, 6);
+            Animate();
+        }
+
+        if (move == false)
+        {
+            SetCycle(6, 4);
+            Animate();
+        }
+
+        if (Jumping == true)
+        {
+            SetCycle(10, 1);
+            Animate();
+        }
+
         Move(moveX, moveY);
         Move();
 
@@ -69,14 +88,20 @@ public class Player : AnimationSprite
 
             if (Input.GetKey(Key.W))
             {
-                
+                Jumping = true;
                 moveY = -25;
+            }
+            if (moveY != -25)
+            {
+                Jumping = false;
 
             }
+        
         }
     }
     void Move()
     {
+        Console.WriteLine(move);
         //x = x + moveX;
         move = false;
 
@@ -93,8 +118,9 @@ public class Player : AnimationSprite
             if (move == true)
             {
                 moveX -= speed;
-                FrameCount++;
+                //FrameCount++;
                 Mirror(true,false);
+                
             }
         }
         if (Input.GetKey(Key.D))
@@ -104,16 +130,26 @@ public class Player : AnimationSprite
             if (move == true)
             {
                 moveX += speed;
-                FrameCount++;
+                //FrameCount++;
                 Mirror(false, false);
             }
         }
 
-        if (FrameCount > Frames)
-        {
-            NextFrame();
-            FrameCount = 0;
-        }
+        //if (FrameCount > Frames)
+        //{
+        //    NextFrame();
+        //    FrameCount = 0;
+        //}
+    }
+
+    public void DeleteLifes(int addition)
+    {
+        Lifes = Lifes - addition;
+    }
+
+    public int GetLifes()
+    {
+        return Lifes;
     }
 
     void OnCollision(GameObject other)
@@ -122,16 +158,28 @@ public class Player : AnimationSprite
         if (other is Platform)
         {
             Platform platform = other as Platform;
+            if (y < platform.y - 75)
+            {
 
-            if (Input.GetKey(Key.W))
-            {
-                moveY = -25;
+
+                Jumping = false;
             }
-            else
+            if (y < platform.y - 75)
             {
-                Move(0, -moveY);
-                moveY = 0;
+
+                if (Input.GetKey(Key.W))
+                {
+                    Jumping = true;
+                    moveY = -25;
+                }
+                else
+                {
+                    Move(0, -moveY);
+                    moveY = 0;
+                }
             }
+
+
         }
     }
 }

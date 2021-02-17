@@ -7,8 +7,12 @@ public class MyGame : Game
 {
 	public MyGame() : base(1920, 1080, false, false)
 	{
-		Level level = new Level();
-		AddChild(level);
+		//Level level = new Level();
+		//AddChild(level);
+
+		Menu menu = new Menu();
+		AddChild(menu);
+
 	}
 
 

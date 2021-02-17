@@ -40,10 +40,12 @@
     <Compile Include="Boss1.cs" />
     <Compile Include="Boss2.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
-    <Compile Include="HUD.cs" />
+    <Compile Include="Hud.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Missile.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />

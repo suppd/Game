@@ -28,20 +28,23 @@ public class Level : GameObject
 
 
     }
+
+
+
     void SetupLevel()
     {
         Background background = new Background(0, 0);
-        //game.AddChild(background);
+        game.AddChild(background);
 
 
-        game.AddChild(player);
+ 
 
         boss1 = new Boss1(1700, 700, player);
         game.AddChild(boss1);
 
         boss1.HP = 100;
 
-        HUD hud = new HUD(boss1);
+        HUD_Boss hud = new HUD_Boss(boss1);
         game.AddChild(hud);
 
 
@@ -53,6 +56,11 @@ public class Level : GameObject
 
         Platform platform3 = new Platform( 1250, game.height / 2 + 400);
         game.AddChild(platform3);
+
+        game.AddChild(player);
+
+        HUD_Player hud_player = new HUD_Player(player);
+        game.AddChild(hud_player);
 
 
     }
@@ -85,14 +93,13 @@ public class Level2 : GameObject
         Background background = new Background(0, 0);
         //game.AddChild(background);
 
-        game.AddChild(player);
 
         Boss2 boss2 = new Boss2(1700, 700, player);
         game.AddChild(boss2);
 
         boss2.HP = 100;
 
-        HUD hud = new HUD(boss2);
+        HUD_Boss hud = new HUD_Boss(boss2);
         game.AddChild(hud);
 
 
@@ -104,6 +111,9 @@ public class Level2 : GameObject
 
         Platform platform3 = new Platform(1250, game.height / 2 + 400);
         game.AddChild(platform3);
+
+
+        game.AddChild(player);
 
 
     }

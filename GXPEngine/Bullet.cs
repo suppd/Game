@@ -9,6 +9,7 @@ public class Bullet : GameObject
     float speed = 5;
     Sprite bulletSprite = new BulletSprite();
     Sprite bossBullet = new BulletBoss();
+    Sprite arm = new ArmBoss();
     float timer = 0;
     Player shooter; // initalise the player as shooter
     bool pEnemy; // know who shot the bullet player or enemy? if yes its TRUE
@@ -20,10 +21,10 @@ public class Bullet : GameObject
     /// <param name="direction"></param>
     /// <param name="pShooter"></param>
     /// <param name="pFromEnemy"></param>
-    public Bullet(Vector2 direction, Player pShooter=null, bool pFromEnemy=false)
+    public Bullet(Vector2 direction, Player pShooter=null, bool pFromEnemy=false, bool pFromKanye=false)
     {
-        this.scaleX = 0.06f;
-        this.scaleY = 0.15f;
+        //this.scaleX = 0.06f;
+        //this.scaleY = 0.15f;
         this.direction = direction;
         shooter = pShooter;         // Now we know who shot us
         pEnemy = pFromEnemy;        // Now we know if enemy shot us
@@ -38,6 +39,10 @@ public class Bullet : GameObject
             AddChild(bossBullet);
         }
 
+        if(pFromKanye != false)
+        {
+            AddChild(arm);
+        }
     }
 
    
@@ -54,28 +59,20 @@ public class Bullet : GameObject
 
 
 }
-public class BulletSprite : Sprite
+public class BulletSprite : AnimationSprite
 {
     float Timer = 5;
     bool Hit = false;
-    public BulletSprite() : base("note.png")
+    public BulletSprite() : base("Mumble.png", 3, 2, 4)
     {
         SetOrigin(width/2, height/2);
-        SetColor(1, 0.2f, 0.2f);
-        SetColor(200, 50, 50);
+        SetFrame(Utils.Random(0, 5));
+        this.scale = 0.5f;
+     
     }
 
     public void OnCollision(GameObject other)
     {
-        //if (other is BaseBoss)
-        //{
-        //    BaseBoss boss1 = other as BaseBoss;
-        //    boss1.Hit = true;
-        //    Console.WriteLine("hit");
-        //    DestroyBullet();
-        //}
-
-
 
         if (other is BaseBoss)
         {
@@ -90,6 +87,13 @@ public class BulletSprite : Sprite
             TylerSprite tyler = other as TylerSprite;
             Console.WriteLine("HIT");
             tyler.Hit = true;
+        }
+
+        if (other is KanyeSprite)
+        {
+            KanyeSprite kanye = other as KanyeSprite;
+            Console.WriteLine("HIT");
+            kanye.Hit = true;
         }
 
     }
@@ -110,7 +114,39 @@ public class BulletBoss : Sprite
     public BulletBoss() : base("colors.png")
     {
         SetOrigin(_bounds.width / 2, _bounds.height / 2);
-        this.scale = 10;
+        this.scale = 1;
+    }
+    public void OnCollision(GameObject other)
+    {
+        //if (other is Platform)
+        //{
+        //    Platform platform = other as Platform;
+        //    DestroyBullet();
+        //}
+
+        if(other is Player)
+        {
+
+            Player player = other as Player;
+            player.DeleteLifes(1);
+            DestroyBullet();
+        }
+    }
+    public void DestroyBullet()
+    {
+        LateDestroy();
+    }
+
+}
+
+
+public class ArmBoss : Sprite
+{
+
+    public ArmBoss() : base("ARM.png")
+    {
+        SetOrigin(_bounds.width / 2, _bounds.height / 2);
+        this.scale = 1;
     }
     public void OnCollision(GameObject other)
     {

@@ -107,6 +107,21 @@ public abstract class BaseBoss : Sprite
         game.AddChild(bullet);
     }
 
+    public void AddSlam()
+    {
+        Bullet bullet = new Bullet(new Vector2(0, 10), null, false,true);
+        bullet.SetXY(1400, 400);
+        game.AddChild(bullet);
+    }
+
+    float trajectory = 100;
+    public void AddLaser()
+    {
+        trajectory--;
+        Missile missile = new Missile(x - 300, y - 400, null, _player.x, _player.y - trajectory *0.99f);  // missle that moves to position when spawned
+        game.AddChild(missile);
+    }
+
     public void Update()
     {
         HandleStates();

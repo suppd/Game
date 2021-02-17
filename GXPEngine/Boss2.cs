@@ -16,7 +16,9 @@ public class Boss2 : BaseBoss
 
     public Boss2(float newX, float newY, Player player = null) : base(newX, newY, player)
     {
-
+        AddChild(kanye);
+        HP = 100;
+        SetState(BossState.Idle);
     }
 
     new private void Update()
@@ -32,6 +34,35 @@ public class Boss2 : BaseBoss
         switch (currentState)
         {
             case BossState.Idle:
+                Timer -= Time.deltaTime;
+                if (Timer <= 0f)
+                {
+                    SetState(BossState.Fase1);
+                }
+                break;
+            case BossState.Fase1:
+                Timer -= Time.deltaTime;
+                if (Timer <= 0f)
+                {
+                    AddSlam();
+                    Timer = 10;
+                }
+                if (HP < 50)
+                {
+                    SetState(BossState.Fase2);
+                }
+                break;
+
+            case BossState.Fase2:
+                Timer -= Time.deltaTime;
+                if (Timer <= 0f)
+                {
+                    AddLaser();
+                    Timer = 1;
+                }
+                break;
+
+            case BossState.Fase3:
 
                 break;
 
@@ -39,16 +70,16 @@ public class Boss2 : BaseBoss
 
     }
 
+}
 
-
-    public class KanyeSprite : Sprite
+public class KanyeSprite : Sprite
     {
         public int Timer = 25;
         public bool Hit = false;
-        public KanyeSprite() : base("circle.png", false, true)
+        public KanyeSprite() : base("Kanye.png", false, true)
         {
             SetOrigin(width / 2, height / 2);
-
+            scale = 2;
         }
 
 
@@ -73,4 +104,5 @@ public class Boss2 : BaseBoss
             }
         }
     }
-}
+
+

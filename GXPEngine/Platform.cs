@@ -6,12 +6,12 @@ using GXPEngine.Core;
 public class Platform : Sprite
 {
 
-    public Platform(float SetX,float SetY) : base("square.png", false, true)
+    public Platform(float SetX,float SetY) : base("platform.png", false, true)
     {
         this.x = SetX;
         this.y = SetY;
         SetOrigin(width / 2, height / 2);
-        this.scale = 3;
+        this.scale = 0.2f;
     }
 
 
