@@ -5,22 +5,26 @@ using GXPEngine.Core;
 
 public class Player : AnimationSprite
 {
+    Retry retry;
     bool idle;
     bool move = false;
     float acceleration = 0.3f;
     float speed = 0;
     float FrameCount;
     float Frames;
-    float CooldownTimer = 400;
+    float CooldownTimer = 800;
     float nextFireTime = 0;
     bool shot = false; // if shot or not for cooldown logic
-    int Lifes = 5;
+    public int Lifes = 5;
     bool Jumping = false;
     float Timer = 1f;
+    int Highscore = 0;
+    Sound walk;
+    SoundChannel SFX;
+    float score = 10; 
 
 
-
-    public Player(float SetX = 0, float SetY = 0) : base("protagcycle_good.png", 5, 3, 10, false, true)
+    public Player(float SetX = 0, float SetY = 0) : base("protagcycle_good.png", 5, 3, 11, false, true)
     {
         SetOrigin(width / 2, height / 2);
         SetXY(SetX, SetY);
@@ -28,6 +32,9 @@ public class Player : AnimationSprite
         SetFrame(6);
         FrameCount = 0;
         Frames = 2.5f;
+        walk = new Sound("Sounds/Riley Walk/Walk.mp3", false, false);
+        SFX = walk.Play();
+        SFX.Volume = 0.1f;
     }
 
 
@@ -41,18 +48,21 @@ public class Player : AnimationSprite
         {
             SetCycle(0, 6);
             Animate();
+            Walk();
         }
 
         if (move == false)
         {
             SetCycle(6, 4);
             Animate();
+            StopWalk();
         }
 
         if (Jumping == true)
         {
             SetCycle(10, 1);
             Animate();
+            StopWalk();
         }
 
         Move(moveX, moveY);
@@ -75,7 +85,28 @@ public class Player : AnimationSprite
         }
 
     }
+    void GetScore()
+    {
+    }
+    void StopWalk()
+    {
+        SFX.Stop();
+    }
 
+    void Walk()
+    {
+        if (SFX.IsPlaying != true)
+        {
+            SFX = walk.Play();
+            SFX.Volume = 0.1f;
+        }
+    }
+
+    public void Death()
+    {
+
+        LateDestroy();
+    }
     void Jump()
     {
         moveY = moveY + 1;

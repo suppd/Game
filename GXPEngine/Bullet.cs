@@ -5,9 +5,10 @@ using GXPEngine.Core;
 
 public class Bullet : GameObject
 {
+
     Vector2 direction;
     float speed = 5;
-    Sprite bulletSprite = new BulletSprite();
+    BulletSprite bulletSprite = new BulletSprite();
     Sprite bossBullet = new BulletBoss();
     Sprite arm = new ArmBoss();
     float timer = 0;
@@ -32,6 +33,7 @@ public class Bullet : GameObject
         if(pShooter != null)
         {
             AddChild(bulletSprite);
+            bulletSprite.CheckFrame();
         }
         
         if(pFromEnemy != false)
@@ -43,6 +45,7 @@ public class Bullet : GameObject
         {
             AddChild(arm);
         }
+
     }
 
    
@@ -61,14 +64,25 @@ public class Bullet : GameObject
 }
 public class BulletSprite : AnimationSprite
 {
+    Sound Ayo;
+    Sound Burh;
+    Sound Ey;
+    Sound Uh;
+    Sound Yuh;
+    SoundChannel _SFX;
     float Timer = 5;
     bool Hit = false;
-    public BulletSprite() : base("Mumble.png", 3, 2, 4)
+    public BulletSprite() : base("Mumble.png", 3, 2, 5)
     {
         SetOrigin(width/2, height/2);
         SetFrame(Utils.Random(0, 5));
         this.scale = 0.5f;
-     
+        Ayo = new Sound("Sounds/Riley speech/Ayo_Riley.mp3", false, false);
+        Burh = new Sound("Sounds/Riley speech/Burh_Riley.mp3", false, false);
+        Ey = new Sound("Sounds/Riley speech/Riley_EY.mp3", false, false);
+        Uh = new Sound("Sounds/Riley speech/Uh_Riley.mp3", false, false);
+        Yuh = new Sound("Sounds/Riley speech/Yuh_Riley.mp3", false, false);
+        
     }
 
     public void OnCollision(GameObject other)
@@ -106,15 +120,45 @@ public class BulletSprite : AnimationSprite
     {
         LateDestroy();
     }
+
+    public void CheckFrame()
+    {
+
+        if (currentFrame == 0)
+        {
+           _SFX = Ayo.Play();
+           _SFX.Volume = 0.10f;
+        }
+        if (currentFrame == 1)
+        {
+           _SFX = Burh.Play();
+           _SFX.Volume = 0.10f;
+        }
+        if (currentFrame == 2)
+        {
+           _SFX = Ey.Play();
+           _SFX.Volume = 0.10f;
+        }
+        if (currentFrame == 3)
+        {
+           _SFX = Uh.Play();
+           _SFX.Volume = 0.10f;
+        }
+        if (currentFrame == 4)
+        {
+           _SFX = Yuh.Play();
+           _SFX.Volume = 0.10f;
+        }
+    }
 }
 
 public class BulletBoss : Sprite
 {
 
-    public BulletBoss() : base("colors.png")
+    public BulletBoss() : base("Mic.png")
     {
         SetOrigin(_bounds.width / 2, _bounds.height / 2);
-        this.scale = 1;
+        this.scale = 0.33f;
     }
     public void OnCollision(GameObject other)
     {
@@ -143,9 +187,9 @@ public class BulletBoss : Sprite
 public class ArmBoss : Sprite
 {
 
-    public ArmBoss() : base("ARM.png")
+    public ArmBoss() : base("yeezy.png")
     {
-        SetOrigin(_bounds.width / 2, _bounds.height / 2);
+        SetOrigin(width / 2, height / 2);
         this.scale = 1;
     }
     public void OnCollision(GameObject other)
@@ -155,6 +199,13 @@ public class ArmBoss : Sprite
         //    Platform platform = other as Platform;
         //    DestroyBullet();
         //}
+
+        if (other is Player)
+        {
+            Player player = other as Player;
+            player.DeleteLifes(1);
+            DestroyBullet();
+        }
     }
     public void DestroyBullet()
     {

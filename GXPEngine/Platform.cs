@@ -13,7 +13,7 @@ public class Platform : Sprite
         SetOrigin(width / 2, height / 2);
         this.scale = 0.2f;
     }
-
+   
 
     //void OnCollision(GameObject other)
     //{

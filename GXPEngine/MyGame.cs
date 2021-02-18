@@ -5,6 +5,9 @@ using TiledMapParser;
 
 public class MyGame : Game
 {
+	float Points = 0;
+	float Score = 5000;
+	float Timer = 0;
 	public MyGame() : base(1920, 1080, false, false)
 	{
 		//Level level = new Level();
@@ -15,6 +18,15 @@ public class MyGame : Game
 
 	}
 
+	void Update()
+    {
+		Timer += Time.deltaTime;
+
+		Points = (Score / Timer);
+		Console.WriteLine(Points);
+
+    }
+
 
 
 	//mandatory for the game to start
@@ -23,4 +35,8 @@ public class MyGame : Game
 		new MyGame().Start();
 	}
 
+	public float GetScore()
+    {
+		return Points;
+    }
 }

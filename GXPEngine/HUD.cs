@@ -35,17 +35,61 @@ public class HUD_Boss : Canvas
 
 
 
-public class HUD_Player : Canvas
+public class HUD_Player : AnimationSprite
 {
 
     private Player _player;
-    public HUD_Player(Player player) : base(200, 200, false)
+    public HUD_Player(Player player) : base("HP.png",2,3,5, false, false)
     {
         SetOrigin(width / 2, height / 2);
         _player = player;
-        this.scale = 3;
-        x = 600;
-        y = 300;
+        this.scale = 1;
+        x = 200;
+        y = 100;
+    }
+
+    void Update()
+    {
+        if (_player.GetLifes() >= 5)
+        {
+            SetFrame(4);
+        }
+        if (_player.GetLifes() == 4)
+        {
+            SetFrame(3);
+        }
+        if (_player.GetLifes() == 3)
+        {
+            SetFrame(2);
+        }
+        if (_player.GetLifes() == 2)
+        {
+            SetFrame(1);
+        }
+        if (_player.GetLifes() == 1)
+        {
+            SetFrame(0);
+        }
+
+
+
+
+    }
+
+}
+
+
+
+public class HUD_Score : Canvas
+{
+
+    private MyGame _myGame;
+    public HUD_Score(MyGame myGame) : base(400, 400, false)
+    {
+        SetOrigin(width / 2, height / 2);
+        _myGame = myGame;
+        x = 1000;
+        y = 500;
     }
 
     void Update()
@@ -54,11 +98,45 @@ public class HUD_Player : Canvas
 
         //HP bar
         graphics.Clear(Color.Empty);
-        if (_player != null)
+        if (_myGame != null)
         {
-            
-            graphics.DrawString("HP:" + _player.GetLifes(), SystemFonts.DefaultFont, Brushes.White, 0, 0);
+
+            graphics.DrawString("Score:" + _myGame.GetScore(), SystemFonts.DefaultFont, Brushes.Red, 0, 0);
         }
+
+
+
+    }
+
+
+
+
+}
+
+
+
+public class HUD_Retry : Canvas
+{
+    public HUD_Retry() : base(400, 400, false)
+    {
+        SetOrigin(width / 2, height / 2);
+
+        x = 1000;
+        y = 500;
+    }
+
+    void Update()
+    {
+
+
+        graphics.Clear(Color.Empty);
+    
+        
+
+            graphics.DrawString("Your Score is:" + "10", SystemFonts.DefaultFont, Brushes.White, 0, 0);
+        
+
+
 
     }
 

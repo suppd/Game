@@ -5,13 +5,16 @@ using System.Text;
 
 using GXPEngine;
 
-public class Missile : Sprite
+public class Missile : GameObject
 {
     float Speed = 1;
     GameObject objectToFollow = null;
     float targetX = 0f;
     float targetY = 0f;
     float Timer = 0;
+    BulletTyler tylerbullet = new BulletTyler();
+    BulletKanye kanyebullet = new BulletKanye();
+
 
     /// <summary>
     /// 
@@ -21,8 +24,9 @@ public class Missile : Sprite
     /// <param name="objectToFollow">Als deze null is, gaat hij naar targetX, targetY</param>
     /// <param name="targetX"></param>
     /// <param name="targetY"></param>
-    public Missile(float x, float y, GameObject objectToFollow, float targetX, float targetY) : base("circle.png")
+    public Missile(float x, float y, GameObject objectToFollow, float targetX, float targetY, bool pKanye = false, bool pTyler = false)
     {
+        //scale = 0.4f;
 
         if (objectToFollow != null)
         {
@@ -32,6 +36,16 @@ public class Missile : Sprite
         this.targetY = targetY;
         this.x = x;
         this.y = y;
+
+        if (pKanye != false)
+        {
+            AddChild(kanyebullet);
+        }
+
+        if (pTyler != false)
+        {
+           AddChild(tylerbullet);
+        }
     }
 
     void Update()
@@ -144,5 +158,49 @@ public class Lazer : Sprite
             LateDestroy();
         }
 
+    }
+}
+
+
+
+public class BulletTyler : AnimationSprite
+{
+
+    public BulletTyler() : base("TylerPr.png",3,1,3)
+    {
+        SetOrigin(width/2,height/2);
+        this.scale = 0.4f;
+        SetFrame(Utils.Random(0, 3)); ;
+    }
+    public void OnCollision(GameObject other)
+    {
+        if (other is Player)
+        {
+            Player player = other as Player;
+            LateDestroy();
+            player.DeleteLifes(1);
+        }
+    }
+}
+
+
+
+public class BulletKanye : AnimationSprite
+{
+
+    public BulletKanye() : base("KanyePr.png",2,1,2)
+    {
+        SetOrigin(width / 2, height / 2);
+        this.scale = 0.4f;
+        SetFrame(Utils.Random(0, 2));
+    }
+    public void OnCollision(GameObject other)
+    {
+        if (other is Player)
+        {
+            Player player = other as Player;
+            LateDestroy();
+            player.DeleteLifes(1);
+        }
     }
 }

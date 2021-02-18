@@ -19,6 +19,7 @@ public class Boss1 : BaseBoss
         AddChild(tyler);
         HP = 100;
         SetState(BossState.Idle);
+        scale = 0.14f;
     }
 
     new private void Update()
@@ -36,7 +37,7 @@ public class Boss1 : BaseBoss
         {
             case BossState.Idle:
                 Timer -= Time.deltaTime;
-                game.AddChild(dialogue);
+                //game.AddChild(dialogue);
                 if (Timer <= 0f)
                 {
                     SetState(BossState.Fase1);

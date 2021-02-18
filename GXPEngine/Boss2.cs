@@ -13,12 +13,13 @@ public class Boss2 : BaseBoss
 {
     //if you exchange tyler sprite with Sprite then u can't acces tyler specific stuff but can import a lot more sprites here which i think isn't needed cuz every boss has 1 sprite
     KanyeSprite kanye = new KanyeSprite();
-
+    float Timer2 = 6f;
     public Boss2(float newX, float newY, Player player = null) : base(newX, newY, player)
     {
         AddChild(kanye);
         HP = 100;
         SetState(BossState.Idle);
+        scale = 0.14f;
     }
 
     new private void Update()
@@ -45,7 +46,7 @@ public class Boss2 : BaseBoss
                 if (Timer <= 0f)
                 {
                     AddSlam();
-                    Timer = 10;
+                    Timer = 5;
                 }
                 if (HP < 50)
                 {
@@ -60,10 +61,31 @@ public class Boss2 : BaseBoss
                     AddLaser();
                     Timer = 1;
                 }
+                if (HP < 20)
+                {
+                    SetState(BossState.Fase3);
+                }
                 break;
-
             case BossState.Fase3:
-
+                Timer -= Time.deltaTime;
+                Timer2 -= Time.deltaTime;
+                if (Timer <= 0f)
+                {
+                    AddLaser();
+                    Timer = 1f;
+                }
+                if (Timer2 <= 0f)
+                {
+                    AddSlam();
+                    Timer2 = 6f;
+                }
+                if (HP <= 0)
+                {
+                    SetState(BossState.Defeated);
+                }
+                break;
+            case BossState.Defeated:
+                LateDestroy();
                 break;
 
         }

@@ -89,7 +89,7 @@ public abstract class BaseBoss : Sprite
 
     public void AddMissile()
     {
-        Missile missile = new Missile(x - 300, y, null, _player.x, _player.y);  // missle that moves to position when spawned
+        Missile missile = new Missile(x - 300, y, null, _player.x, _player.y,false,true);  // missle that moves to position when spawned
         game.AddChild(missile);
     }
 
@@ -110,7 +110,7 @@ public abstract class BaseBoss : Sprite
     public void AddSlam()
     {
         Bullet bullet = new Bullet(new Vector2(0, 10), null, false,true);
-        bullet.SetXY(1400, 400);
+        bullet.SetXY(_player.x + 100, 100);
         game.AddChild(bullet);
     }
 
@@ -118,7 +118,7 @@ public abstract class BaseBoss : Sprite
     public void AddLaser()
     {
         trajectory--;
-        Missile missile = new Missile(x - 300, y - 400, null, _player.x, _player.y - trajectory *0.99f);  // missle that moves to position when spawned
+        Missile missile = new Missile(x - 300, y - 400, null, _player.x, _player.y - trajectory * 0.99f, true, false);  // missle that moves to position when spawned
         game.AddChild(missile);
     }
 
