@@ -16,6 +16,18 @@ public class Level : GameObject
         SetupLevel();
     }
 
+    public void muteMusic()
+    {
+        if (_musicChannel.Volume != 0)
+        {
+            _musicChannel.Volume = 0f;
+        }
+        else
+        {
+            _musicChannel.Volume = 0.1f;
+        }
+
+    }
     void Update()
     {
         if (Input.GetKeyDown(Key.T))
@@ -27,12 +39,18 @@ public class Level : GameObject
             _musicChannel.Volume = _musicChannel.Volume + 0.20f;
         }
 
+        if (Input.GetKeyDown(Key.M))
+        {
+            _musicChannel.Volume = 0f;
+        }
 
         if (boss1.GetHP() <= 0)
         {
             StopFrankMusic();
             ClearLevel();
             LateDestroy();
+            Transition transition = new Transition();
+            game.AddChild(transition);
             //Level2 level2 = new Level2();
             //game.AddChild(level2);
         }
@@ -66,6 +84,10 @@ public class Level : GameObject
         _musicChannel = Tyler.Play();
         _musicChannel.Volume = 0.10f;
 
+        if (Input.GetKeyDown(Key.M))
+        {
+            _musicChannel.Volume = 0f;
+        }
 
         boss1 = new Boss1(1700, 700, player);
         game.AddChild(boss1);

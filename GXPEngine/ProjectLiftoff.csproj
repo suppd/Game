@@ -43,6 +43,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
+    <Compile Include="Howtoplay.cs" />
     <Compile Include="Hud.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Menu.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Retry.cs" />
+    <Compile Include="ScoreManager.cs" />
     <Compile Include="Transition.cs" />
   </ItemGroup>
 </Project>

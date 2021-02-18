@@ -4,15 +4,17 @@ using System.Drawing;
 
 public class Menu : GameObject
 {
+    Sound Ping;
     Button button1;
     ButtonHow button2;
     ButtonQuit button3;
     MenuSpr menu;
     ButtonVolume buttonvolume;
     ButtonVolumeNot buttonvolumenot;
-
+    private Level _level;
     public Menu() : base()
     {
+
         button1 = new Button(); //start
         button2 = new ButtonHow(); //how to play
         button3 = new ButtonQuit(); //quit
@@ -40,7 +42,7 @@ public class Menu : GameObject
         buttonvolumenot.y = 900;
 
         menu = new MenuSpr(0,0);
-        //AddChild(menu);
+        AddChild(menu);
         AddChild(buttonvolume);
         AddChild(buttonvolumenot);
 
@@ -48,16 +50,17 @@ public class Menu : GameObject
         buttonvolumenot.visible = false;
 
     }
-
     void Update()
     {
+        Ping = new Sound("Sounds/menu/menu.mp3", false, false);
         if (Input.GetMouseButtonDown(0))
         {
             if (button1.HitTestPoint(Input.mouseX, Input.mouseY))
             {
                 startGame();
                 DestroyMenu();
-                button1.visible = false;
+                button1.visible = false;;
+                
             }
 
             if (button2.HitTestPoint(Input.mouseX, Input.mouseY))
@@ -65,6 +68,8 @@ public class Menu : GameObject
 
                 button2.visible = false;
                 GoHowtoPlay();
+                DestroyMenu();
+
             }
 
             if (button3.HitTestPoint(Input.mouseX, Input.mouseY))
@@ -78,7 +83,7 @@ public class Menu : GameObject
             {
                 if (buttonvolume.HitTestPoint(Input.mouseX, Input.mouseY))
                 {
-                    StopMusic();
+                    StopMusic(_level);
                     buttonvolumenot.visible = true;
                     buttonvolume.visible = false;
                 }
@@ -94,8 +99,8 @@ public class Menu : GameObject
 
     void startGame()
     {
-        Level level = new Level();
-        game.AddChild(level);
+        _level = new Level();
+        game.AddChild(_level);
     }
 
     void DestroyMenu()
@@ -106,11 +111,16 @@ public class Menu : GameObject
 
     void GoHowtoPlay()
     {
-
+        Howtoplay howtoplay = new Howtoplay();
+        game.AddChild(howtoplay);
     }
-    void StopMusic()
+    void StopMusic(Level level)
     {
-
+        level = _level;
+        if (level != null)
+        {
+            level.muteMusic();
+        }
     }
 }
 

@@ -11,7 +11,7 @@ public class HUD_Boss : Canvas
     {
         SetOrigin(width / 2, height / 2);
         _boss = boss;
-        scale = 2;
+        scale = 1;
     }
 
     void Update()
@@ -117,12 +117,14 @@ public class HUD_Score : Canvas
 
 public class HUD_Retry : Canvas
 {
-    public HUD_Retry() : base(400, 400, false)
+    private ScoreManager scoremanager;
+    public HUD_Retry(ScoreManager _scoremanager) : base(400, 400, false)
     {
         SetOrigin(width / 2, height / 2);
 
         x = 1000;
         y = 500;
+        scoremanager = _scoremanager;
     }
 
     void Update()
@@ -130,11 +132,12 @@ public class HUD_Retry : Canvas
 
 
         graphics.Clear(Color.Empty);
-    
-        
 
-            graphics.DrawString("Your Score is:" + "10", SystemFonts.DefaultFont, Brushes.White, 0, 0);
-        
+
+        if (scoremanager != null)
+        {
+            graphics.DrawString("Your Score is:" + scoremanager.getScore(), SystemFonts.DefaultFont, Brushes.White, 0, 0);
+        }
 
 
 

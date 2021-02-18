@@ -21,10 +21,13 @@ public class MyGame : Game
 	void Update()
     {
 		Timer += Time.deltaTime;
-
 		Points = (Score / Timer);
-		Console.WriteLine(Points);
 
+    }
+
+	public float getPoints()
+    {
+		return Points;
     }
 
 

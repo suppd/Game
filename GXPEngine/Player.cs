@@ -21,7 +21,7 @@ public class Player : AnimationSprite
     int Highscore = 0;
     Sound walk;
     SoundChannel SFX;
-    float score = 10; 
+
 
 
     public Player(float SetX = 0, float SetY = 0) : base("protagcycle_good.png", 5, 3, 11, false, true)
@@ -44,6 +44,7 @@ public class Player : AnimationSprite
 
     void Update()
     {
+
         if (move == true)
         {
             SetCycle(0, 6);
@@ -85,9 +86,7 @@ public class Player : AnimationSprite
         }
 
     }
-    void GetScore()
-    {
-    }
+
     void StopWalk()
     {
         SFX.Stop();

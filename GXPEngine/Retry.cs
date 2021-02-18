@@ -4,6 +4,7 @@ using System.Drawing;
 
 public class Retry : GameObject
 {
+    ScoreManager scoreManager = new ScoreManager();
     ButtonRetry _button;
     Level level;
     private Player _player;
@@ -21,7 +22,7 @@ public class Retry : GameObject
 
     void Update()
     {
-        HUD_Retry hud_retry = new HUD_Retry();
+        HUD_Retry hud_retry = new HUD_Retry(scoreManager);
         hud_retry.x = _button.x + 125;
         hud_retry.y = _button.y + 300;
         AddChild(hud_retry);
