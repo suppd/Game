@@ -20,14 +20,8 @@ public class MyGame : Game
 
 	void Update()
     {
-		Timer += Time.deltaTime;
-		Points = (Score / Timer);
 
-    }
 
-	public float getPoints()
-    {
-		return Points;
     }
 
 

@@ -110,7 +110,7 @@ public abstract class BaseBoss : Sprite
     public void AddSlam()
     {
         Bullet bullet = new Bullet(new Vector2(0, 10), null, false,true);
-        bullet.SetXY(_player.x + 100, 100);
+        bullet.SetXY(_player.x + 100, 0);
         game.AddChild(bullet);
     }
 

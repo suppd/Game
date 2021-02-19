@@ -17,15 +17,17 @@ public class Retry : GameObject
         AddChild(_button);
         _button.x = (game.width/2);
         _button.y = (game.height/2);
+        scoreManager = new ScoreManager();
+        scoreManager.x = _button.x - 100;
+        scoreManager.y = _button.y + 100;
+        AddChild(scoreManager);
 
     }
 
     void Update()
     {
-        HUD_Retry hud_retry = new HUD_Retry(scoreManager);
-        hud_retry.x = _button.x + 125;
-        hud_retry.y = _button.y + 300;
-        AddChild(hud_retry);
+
+        AddChild(scoreManager);
         if (Input.GetMouseButtonDown(0))
         {
             if (_button.HitTestPoint(Input.mouseX, Input.mouseY))

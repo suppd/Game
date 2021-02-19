@@ -44,6 +44,14 @@ public class Player : AnimationSprite
 
     void Update()
     {
+        if (x <= 0)
+        {
+            x = 0;
+        }
+        if (x >= 1900)
+        {
+            x = 1900;
+        }
 
         if (move == true)
         {

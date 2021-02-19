@@ -11,13 +11,13 @@ public class HUD_Boss : Canvas
     {
         SetOrigin(width / 2, height / 2);
         _boss = boss;
-        scale = 1;
+        scale = 3;
     }
 
     void Update()
     {
         x = _boss.x;
-        y = _boss.y - 300;
+        y = _boss.y - 200;
 
         //HP bar
         graphics.Clear(Color.Empty);

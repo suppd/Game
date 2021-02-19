@@ -92,7 +92,7 @@ public class Level : GameObject
         boss1 = new Boss1(1700, 700, player);
         game.AddChild(boss1);
 
-        boss1.HP = 100;
+        boss1.HP = 300;
         player.Lifes = 5;
 
         HUD_Boss hud = new HUD_Boss(boss1);
@@ -159,7 +159,7 @@ public class Level2 : GameObject
         boss2 = new Boss2(1700, 700, player);
         game.AddChild(boss2);
 
-        boss2.HP = 100;
+        boss2.HP = 300;
         player.Lifes = 5; 
 
         HUD_Boss hud = new HUD_Boss(boss2);

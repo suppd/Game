@@ -17,7 +17,7 @@ public class Boss2 : BaseBoss
     public Boss2(float newX, float newY, Player player = null) : base(newX, newY, player)
     {
         AddChild(kanye);
-        HP = 100;
+        HP = 300;
         SetState(BossState.Idle);
         scale = 0.14f;
     }
@@ -48,7 +48,7 @@ public class Boss2 : BaseBoss
                     AddSlam();
                     Timer = 5;
                 }
-                if (HP < 50)
+                if (HP <= 200)
                 {
                     SetState(BossState.Fase2);
                 }
@@ -61,7 +61,7 @@ public class Boss2 : BaseBoss
                     AddLaser();
                     Timer = 1;
                 }
-                if (HP < 20)
+                if (HP <= 100)
                 {
                     SetState(BossState.Fase3);
                 }

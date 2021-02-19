@@ -17,7 +17,7 @@ public class Boss1 : BaseBoss
     public Boss1(float newX, float newY, Player player = null) : base(newX, newY, player)
     {
         AddChild(tyler);
-        HP = 100;
+        HP = 300;
         SetState(BossState.Idle);
         scale = 0.14f;
     }
@@ -51,7 +51,7 @@ public class Boss1 : BaseBoss
                     AddMissile();
                     Timer = 1f;
                 }
-                if(HP <= 50)
+                if(HP <= 200)
                 {
                     SetState(BossState.Fase2);
                 }
@@ -63,7 +63,7 @@ public class Boss1 : BaseBoss
                     AddGroundBul();
                     Timer = 2;
                 }
-                if(HP <= 20)
+                if(HP <= 100)
                 {
                     SetState(BossState.Fase3);
                 }
